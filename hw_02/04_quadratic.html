@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Quadratic</title>
+</head>
+<body>
+
+<script>
+  function getQuadraticEquation(a, b, c) {
+      let discriminant = b * b - 4 * a * c;
+      if (discriminant < 0) {
+          return `уравнение ${a !== 1 ? `${a}x^2` : 'x^2'} - ${Math.abs(b)}x + ${c} = 0 не имеет вещественных корней`;
+      } else if (discriminant === 0) {
+          return `уравнение ${a !== 1 ? `${a}x^2` : 'x^2'} - ${Math.abs(b)}x + ${c} = 0 имеет один корень x = ${-b / (2 * a)}`;
+      } else {
+          let rootOne = (-b + Math.sqrt(discriminant)) / (2 * a);
+          let rootTwo = (-b - Math.sqrt(discriminant)) / (2 * a);
+          return `уравнение ${a !== 1 ? `${a}x^2` : 'x^2'} - ${Math.abs(b)}x + ${c} = 0 имеет корни x1 = ${rootOne} и x2 = ${rootTwo}`;
+      }
+  }
+
+  getQuadraticEquation();
+</script>
+</body>
+</html>
