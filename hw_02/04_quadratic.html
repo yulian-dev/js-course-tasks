@@ -9,14 +9,29 @@
 <script>
   function getQuadraticEquation(a, b, c) {
       let discriminant = b * b - 4 * a * c;
+      let isCoefficientEqualsOne = (a !== 1 && a !== -1);
+      let secondCoefficient = (b !== 1 && b !== -1) ? Math.abs(b) : '';
+      let thirdCoefficient = (c < 0) ? `- ${c * -1}` : `+ ${c}`;
       if (discriminant < 0) {
-          return `уравнение ${a !== 1 ? `${a}x^2` : 'x^2'} - ${Math.abs(b)}x + ${c} = 0 не имеет вещественных корней`;
+          console.log(
+              `уравнение ${isCoefficientEqualsOne
+                  ? `${a}x^2`
+                  : 'x^2'} - ${secondCoefficient}x ${thirdCoefficient} = 0 не имеет вещественных корней`
+          );
       } else if (discriminant === 0) {
-          return `уравнение ${a !== 1 ? `${a}x^2` : 'x^2'} - ${Math.abs(b)}x + ${c} = 0 имеет один корень x = ${-b / (2 * a)}`;
+          console.log(
+              `уравнение ${isCoefficientEqualsOne
+                  ? `${a}x^2`
+                  : 'x^2'} - ${secondCoefficient}x ${thirdCoefficient} = 0 имеет один корень x = ${-b / (2 * a)}`
+          );
       } else {
           let rootOne = (-b + Math.sqrt(discriminant)) / (2 * a);
           let rootTwo = (-b - Math.sqrt(discriminant)) / (2 * a);
-          return `уравнение ${a !== 1 ? `${a}x^2` : 'x^2'} - ${Math.abs(b)}x + ${c} = 0 имеет корни x1 = ${rootOne} и x2 = ${rootTwo}`;
+          console.log(
+              `уравнение ${isCoefficientEqualsOne
+                  ? `${a}x^2`
+                  : 'x^2'} - ${secondCoefficient}x ${thirdCoefficient} = 0 имеет корни x1 = ${rootOne} и x2 = ${rootTwo}`
+          );
       }
   }
 
