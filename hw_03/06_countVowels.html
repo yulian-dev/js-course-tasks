@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>CountVowels</title>
+</head>
+<body>
+<script>
+    const countVowelLetters = (str) => {
+        let vowelList = ['а','у','о','ы','э','я','ю','ё','и','е'];
+
+        console.log('Количество гласных = '
+            + str.toLowerCase().split('').filter(letter => vowelList.includes(letter)).length
+        );
+    }
+
+    countVowelLetters();
+</script>
+</body>
+</html>

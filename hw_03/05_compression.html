@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Compression & Decompression</title>
+</head>
+<body>
+
+<script>
+    const compress = (str) => {
+        let compressed = '';
+        let count = 0;
+
+        for (let i = 0; i < str.length; i++) {
+            count++;
+            if (str[i] !== str[i + 1]) {
+                compressed += str[i] + count;
+                count = 0;
+            }
+        }
+
+        console.log(`'${str}' => '${compressed}'`);
+    }
+
+    compress('fffdccbbb');
+
+    const decompress = (str) => {
+        let decompressed = '';
+        let count = '';
+        let prevCharacter = '';
+
+        for (let i = 0; i < str.length; i++) {
+            if(isNaN(parseInt(str[i]))) {
+                if (count !== '') {
+                    decompressed += prevCharacter.repeat(parseInt(count));
+                }
+                prevCharacter = str[i];
+                count = '';
+            } else {
+                count += str[i];
+            }
+        }
+
+        if (count !== '') {
+            decompressed += prevCharacter.repeat(parseInt(count));
+        }
+
+        console.log(`'${str}' => '${decompressed}'`);
+    }
+
+    decompress('a12b1c3');
+</script>
+</body>
+</html>
