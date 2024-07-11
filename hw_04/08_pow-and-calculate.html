@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Pow and Calculate</title>
+</head>
+<body>
+<script>
+    const getPow = (x) => {
+        return function (y) {
+            if (y === 0) return 1;
+
+            let result = x;
+            for (let i = 1; i < Math.abs(y); i++) {
+                result *= x;
+            }
+
+            if (y < 0) return 1 / result;
+            return result;
+        }
+    }
+
+    console.log(getPow(-2)(3));
+
+    const getCalculate = (a) => {
+        return function(operation) {
+            return function(b) {
+                if (operation === '+') return a + b;
+                if (operation === '-') return a - b;
+                if (operation === '*') return a * b;
+                if (operation === '/' && b !== 0) return a / b;
+                return 'Ошибка (на ноль делить нельзя)';
+            }
+        }
+    }
+
+    console.log(getCalculate(2)('+')(3));
+</script>
+</body>
+</html>

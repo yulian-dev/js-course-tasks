@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Buttons Counter</title>
+    <style>
+        .btn {
+            padding: 10px 20px;
+            font-size: 20px;
+            margin: 10px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+<div style="margin-top: 1em; text-align: center">
+    <button class="btn" type="button">0</button>
+    <button class="btn" type="button">0</button>
+    <button class="btn" type="button">0</button>
+
+</div>
+<script>
+    const getButtonsCounter = () => {
+        const buttons = document.querySelectorAll('.btn');
+
+        function makeCounter(button) {
+            let count = 0;
+
+            return function() {
+                count++;
+                button.innerText = count;
+            }
+        }
+
+        for (let i = 0; i < buttons.length; i++) {
+            buttons[i].onclick = makeCounter(buttons[i]);
+        }
+
+    }
+
+    getButtonsCounter();
+</script>
+</body>
+</html>
