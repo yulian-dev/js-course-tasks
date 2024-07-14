@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Methods</title>
+</head>
+<body>
+<script>
+    const getMethods = () => {
+        //01 -- Sum of Array Elements
+        const currentSums = (numbers) => {
+            return numbers.reduce((acc, current, i) => {
+                if (acc.length === 0) {
+                    acc.push(current)
+                } else {
+                    acc.push(acc[i - 1] + current)
+                }
+                return acc;
+            }, []);
+        }
+        currentSums([2, 3, 5, 7, 11, 13, 17]);
+
+        //02 -- First Letter from String
+        const firstLettersFromString = (str) => {
+            return str.split(' ').map(word => word.charAt(0));
+        }
+        firstLettersFromString("Каждый охотник желает знать, где сидит фазан.");
+
+        //03 -- Positive Integers from Array
+        const positiveIntegersFromArray = (numbers) => {
+            return numbers.filter(num => num % 2 === 0 && num > 0);
+        }
+        positiveIntegersFromArray([-1, 2, 3.5, -12, 4, 1.25, 16]);
+
+        //04 -- Move Zeros to the End of Array
+        const moveZeros = (items) => {
+            return items.sort((a, b) => (a !== 0 && b === 0) ? -1 : (a === 0 && b !== 0) ? 1 : 0);
+        }
+        moveZeros([false, 1, 0, NaN, 2, 0, null, 3, 4, 0, 5]);
+
+        //05 -- Change Array
+        const changeArray = (numbers) => {
+            const length = numbers.length;
+            const middleOfArray = Math.floor(length / 2);
+
+            if (length % 2 === 0) {
+                return numbers.slice(middleOfArray).concat(numbers.slice(0, middleOfArray));
+            } else {
+                return numbers.slice(middleOfArray + 1).concat(numbers[middleOfArray], numbers.slice(0, middleOfArray));
+            }
+        }
+        changeArray([1, 2, 3, 4, 5]);
+    }
+    getMethods();
+</script>
+</body>
+</html>
