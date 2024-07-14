@@ -16,25 +16,40 @@
             }
 
             if (y < 0) return 1 / result;
+            console.log(`${x}^${y} = ${result}`);
             return result;
         }
     }
 
-    console.log(getPow(-2)(3));
+    getPow(-2)(3);
 
     const getCalculate = (a) => {
         return function(operation) {
             return function(b) {
-                if (operation === '+') return a + b;
-                if (operation === '-') return a - b;
-                if (operation === '*') return a * b;
-                if (operation === '/' && b !== 0) return a / b;
-                return 'Ошибка (на ноль делить нельзя)';
+                if (operation === '/' && b === 0) {
+                    console.error('Ошибка (на ноль делить нельзя)');
+                    return;
+                }
+
+                const operations = {
+                    '+': a + b,
+                    '-': a - b,
+                    '*': a * b,
+                    '/': a / b,
+                };
+
+                const result = operations[operation];
+                if (result === undefined) {
+                    throw new Error('Неизвестная операция');
+                }
+
+                console.log(`${a}${operation}${b} = ${result}`);
+                return result;
             }
         }
     }
 
-    console.log(getCalculate(2)('+')(3));
+    getCalculate(2)('/')(0);
 </script>
 </body>
 </html>

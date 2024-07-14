@@ -21,21 +21,26 @@
 </div>
 <script>
     const getButtonsCounter = () => {
-        const buttons = document.querySelectorAll('.btn');
-
-        function makeCounter(button) {
+        function makeCounter() {
             let count = 0;
 
             return function() {
                 count++;
-                button.innerText = count;
+                return count;
             }
         }
 
-        for (let i = 0; i < buttons.length; i++) {
-            buttons[i].onclick = makeCounter(buttons[i]);
-        }
+        window.onload = function () {
+            const buttons = document.querySelectorAll('.btn');
 
+            buttons.forEach(button => {
+                const counter = makeCounter();
+
+                button.onclick = function() {
+                    button.innerText = counter();
+                }
+            })
+        }
     }
 
     getButtonsCounter();
