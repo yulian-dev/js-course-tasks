@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Calendar</title>
+    <style>
+        td {
+            padding: 10px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+<div style="width: 100%; height: 100%">
+    <table style="margin: 0 auto" id="calendar"></table>
+</div>
+<script>
+    const getCalendar = () => {
+        const createCalendar = (id, year, month) => {
+            const calendarId = document.getElementById(id);
+
+            const monthNames = ["Январь", "Февраль", "Март", "Апрель", "Май", "Июнь", "Июль", "Август", "Сентябрь", "Октябрь", "Ноябрь", "Декабрь"];
+            const calendarMonth = month - 1;
+            const calendarDate = new Date(year, calendarMonth);
+            let daysInMonth = new Date(year, month, 0).getDate();
+
+            let table = `<tr><th colspan="7">${monthNames[calendarMonth]} ${year} года</th></tr>`;
+                table += '<tr><td>пн</td><td>вт</td><td>ср</td><td>чт</td><td>пт</td><td>сб</td><td>вс</td></tr><tr>';
+
+            for (let i = 0; i < getDay(calendarDate); i++) {
+                table += '<td></td>';
+            }
+
+            for (let i = 0; i < daysInMonth; i++) {
+                table += '<td>' + calendarDate.getDate() + '</td>';
+
+                if (getDay(calendarDate) % 7 === 6) {
+                    table += '</tr><tr>';
+                }
+
+                calendarDate.setDate(calendarDate.getDate() + 1);
+            }
+
+            if (getDay(calendarDate) !== 0) {
+                for (let i = getDay(calendarDate); i < 7; i++) {
+                    table += '<td></td>';
+                }
+            }
+
+            table += '</tr>';
+            calendarId.innerHTML = table;
+        }
+
+        const getDay = (date) => {
+            let day = date.getDate();
+            if (day === 0) day = 7;
+            return day - 1;
+        }
+
+        window.onload = function() {
+            const month = Number(prompt('Введите номер месяца:', ''));
+            const year = Number(prompt('Введите год:', ''));
+            createCalendar('calendar', year, month);
+        }
+    }
+
+    getCalendar();
+</script>
+</body>
+</html>
