@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Chaining</title>
+</head>
+<body>
+<script>
+    const getCounter = (initialValue = 0) => {
+        let counterValue = initialValue;
+
+        return {
+            log: function () {
+                console.log(counterValue);
+                return this
+            },
+            count: function (value) {
+                counterValue += value;
+                return this;
+            },
+            reset: function () {
+                counterValue = 0;
+                return this;
+            }
+        }
+    }
+
+    const counter = getCounter(5);
+    counter.log() // 5
+        .count(4)
+        .log() // 9
+        .count(3)
+        .log() // 12
+        .reset()
+        .log() // 0
+        .count(8)
+        .log(); // 8
+</script>
+</body>
+</html>
