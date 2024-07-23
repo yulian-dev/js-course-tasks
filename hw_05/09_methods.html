@@ -9,14 +9,17 @@
     const getMethods = () => {
         //01 -- Sum of Array Elements
         const currentSums = (numbers) => {
-            return numbers.reduce((acc, current, i) => {
+            const result = numbers.reduce((acc, current, i) => {
                 if (acc.length === 0) {
-                    acc.push(current)
+                    acc.push(`${current}`);
                 } else {
-                    acc.push(acc[i - 1] + current)
+                    acc.push(`${acc[i - 1]}+${current}`);
                 }
                 return acc;
             }, []);
+
+            const evalResult = result.map((str) => eval(str));
+            console.log(`[${result.join(', ')}] = [${evalResult.join(', ')}]`);
         }
         currentSums([2, 3, 5, 7, 11, 13, 17]);
 
@@ -24,19 +27,21 @@
         const firstLettersFromString = (str) => {
             return str.split(' ').map(word => word.charAt(0));
         }
-        firstLettersFromString("Каждый охотник желает знать, где сидит фазан.");
+        console.log(firstLettersFromString("Каждый охотник желает знать, где сидит фазан."));
 
         //03 -- Positive Integers from Array
         const positiveIntegersFromArray = (numbers) => {
             return numbers.filter(num => num % 2 === 0 && num > 0);
         }
-        positiveIntegersFromArray([-1, 2, 3.5, -12, 4, 1.25, 16]);
+        console.log(positiveIntegersFromArray([-1, 2, 3.5, -12, 4, 1.25, 16]));
 
         //04 -- Move Zeros to the End of Array
         const moveZeros = (items) => {
             return items.sort((a, b) => (a !== 0 && b === 0) ? -1 : (a === 0 && b !== 0) ? 1 : 0);
         }
-        moveZeros([false, 1, 0, NaN, 2, 0, null, 3, 4, 0, 5]);
+        console.log(moveZeros([false, 1, 0, NaN, 2, 0, null, 3, 4, 0, 5]));
+        console.log(moveZeros([0, 2, 0, 4, 0, 6]));
+        console.log(moveZeros([0, 1, 2, 3, 4, 5, 6, 7, 8, 9]));
 
         //05 -- Change Array
         const changeArray = (numbers) => {
@@ -49,7 +54,9 @@
                 return numbers.slice(middleOfArray + 1).concat(numbers[middleOfArray], numbers.slice(0, middleOfArray));
             }
         }
-        changeArray([1, 2, 3, 4, 5]);
+        console.log(changeArray([1, 2, 3, 4, 5]));
+        console.log(changeArray([1, 2]));
+        console.log(changeArray([1, 2, 3, 4, 5, 6, 7, 8]));
     }
     getMethods();
 </script>
