@@ -8,20 +8,25 @@
 <script>
     const getPow = (x) => {
         return function (y) {
-            if (y === 0) return 1;
-
             let result = x;
-            for (let i = 1; i < Math.abs(y); i++) {
-                result *= x;
+            if (y !== 0) {
+                for (let i = 1; i < Math.abs(y); i++) {
+                    result *= x;
+                }
+                result = y < 0 ? 1 / result : result;
+            } else {
+                result = 1;
             }
 
-            if (y < 0) return 1 / result;
             console.log(`${x}^${y} = ${result}`);
             return result;
         }
     }
 
     getPow(-2)(3);
+    getPow(4)(2);
+    getPow(16)(0);
+    getPow(2)(-3);
 
     const getCalculate = (a) => {
         return function(operation) {
