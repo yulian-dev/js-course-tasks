@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Editable List</title>
+    <style>
+        body {
+            font-family: "Amazon Ember", sans-serif;
+            text-align: center;
+            margin-top: 30px;
+        }
+
+        .editable-list-container {
+            width: 400px;
+            height: 100%;
+            margin: 0 auto;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: rgba(17, 12, 46, 0.15) 0 48px 100px 0;
+            display: flex;
+            flex-direction: column;
+            align-items: start;
+        }
+
+        h1 {
+            margin-top: 10px;
+            text-transform: uppercase;
+        }
+
+        input {
+            width: 200px;
+            padding: 15px 5px;
+            margin-right: 5px;
+        }
+
+        button {
+            align-self: center;
+            background-color: #fff;
+            background-image: none;
+            background-position: 0 90%;
+            background-repeat: repeat no-repeat;
+            background-size: 4px 3px;
+            border-style: solid;
+            border-width: 2px;
+            box-shadow: rgba(0, 0, 0, .2) 15px 28px 25px -18px;
+            box-sizing: border-box;
+            text-transform: uppercase;
+            color: #41403e;
+            cursor: pointer;
+            display: inline-block;
+            font-family: Neucha, sans-serif;
+            font-size: 1rem;
+            line-height: 23px;
+            outline: none;
+            padding: .75rem;
+            text-decoration: none;
+            transition: all 235ms ease-in-out;
+            border-bottom-left-radius: 15px 255px;
+            border-bottom-right-radius: 225px 15px;
+            border-top-left-radius: 255px 15px;
+            border-top-right-radius: 15px 225px;
+            user-select: none;
+            -webkit-user-select: none;
+            touch-action: manipulation;
+        }
+
+        button:hover {
+            box-shadow: rgba(0, 0, 0, .3) 2px 8px 8px -5px;
+            transform: translate3d(0, 2px, 0);
+        }
+
+        button:focus {
+            box-shadow: rgba(0, 0, 0, .3) 2px 8px 4px -6px;
+        }
+
+        button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        #addBtn {
+            border-color: #2d8997;
+        }
+
+        #removeBtn {
+            border-color: #e73d89;
+        }
+
+        ol {
+            padding: 0;
+            margin-top: 20px;
+            margin-left: 20px;
+            text-align: left;
+        }
+
+        li {
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+<section class="editable-list-container">
+    <h1>Лол Кек Чебурек 🖤</h1>
+    <div>
+        <input type="text" id="listInput" placeholder="Add something new...">
+        <button id="addBtn">Add</button>
+        <button id="removeBtn">Remove</button>
+    </div>
+    <ol id="listItems"></ol>
+</section>
+<script>
+    const getEditableList = () => {
+        const listItems = document.getElementById('listItems');
+        const listInput = document.getElementById('listInput');
+        const addBtn = document.getElementById('addBtn');
+        const removeBtn = document.getElementById('removeBtn');
+        removeBtn.disabled = true;
+
+        const initialArray = ['упячка', 'ололо', 'пыщ пыщ', 'реайни'];
+        for (const item of initialArray) {
+            addItem(item);
+        }
+
+        function addItem(text = null) {
+            removeBtn.disabled = false;
+
+            if (!text) {
+                text = listInput.value.trim();
+                if (text) {
+                    listInput.value = '';
+                }
+            }
+
+            if (text === '') {
+                return;
+            }
+
+            const li = document.createElement('li');
+            li.textContent = text;
+            listItems.appendChild(li);
+            li.addEventListener('click', changeItem);
+        }
+
+        addBtn.addEventListener('click', () => addItem());
+        listInput.addEventListener('keydown', addItemByEnter);
+        function addItemByEnter(event) {
+            if (event.code === 'Enter') {
+                event.preventDefault();
+                addItem();
+            }
+        }
+
+        removeBtn.addEventListener('click', function() {
+            if (listItems.lastChild) {
+                listItems.removeChild(listItems.lastChild);
+            }
+            if (!listItems.hasChildNodes()) {
+                removeBtn.disabled = true;
+            }
+        });
+
+        function changeItem(event) {
+            const item = event.target;
+            const prevText = item.textContent;
+            const input = document.createElement('input');
+
+            input.type = 'text';
+            input.value = prevText;
+            input.textContent = '';
+            input.appendChild(item);
+            input.focus();
+            input.addEventListener('blur', addNewText);
+            function addNewText() {
+                const newText = input.value.trim();
+
+                if (newText === '') {
+                    item.textContent = prevText;
+                } else {
+                    item.textContent = newText;
+                }
+
+                item.removeChild(input);
+            }
+        }
+    }
+    getEditableList();
+</script>
+</body>
+</html>

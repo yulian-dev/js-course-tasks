@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Calendar</title>
+    <style>
+        table {
+            width: 450px;
+            height: 100%;
+            margin: 100px auto 0;
+            border-radius: 5px;
+            box-shadow: rgba(17, 12, 46, 0.15) 0 48px 100px 0;
+        }
+
+        td {
+            padding: 10px;
+            text-align: center;
+        }
+
+        th {
+            color: #333333;
+            text-transform: uppercase;
+            font-size: 20px;
+            font-family: "Amazon Ember", sans-serif;
+        }
+
+        button {
+            background-color: #3DD1E7;
+            border: 0 solid #E5E7EB;
+            box-sizing: border-box;
+            color: #000000;
+            font-family: ui-sans-serif, system-ui, -apple-system, system-ui, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+            font-size: 1rem;
+            font-weight: 700;
+            justify-content: center;
+            line-height: 1.75rem;
+            padding: .35rem .5rem;
+            position: relative;
+            text-align: center;
+            text-decoration: none #000000 solid;
+            text-decoration-thickness: auto;
+            margin: 0 5px;
+            cursor: pointer;
+            transform: rotate(-2deg);
+            user-select: none;
+            -webkit-user-select: none;
+            touch-action: manipulation;
+        }
+
+        button:focus {
+            outline: 0;
+        }
+
+        button:after {
+            content: '';
+            position: absolute;
+            border: 1px solid #000000;
+            bottom: 4px;
+            left: 4px;
+            width: calc(100% - 1px);
+            height: calc(100% - 1px);
+        }
+
+        button:hover:after {
+            bottom: 2px;
+            left: 2px;
+        }
+
+        #decrease-year, #increase-year {
+            background-color: #e73d89
+        }
+
+        .weekdays > td {
+            text-transform: uppercase;
+            font-size: 16px;
+            font-family: "Amazon Ember", sans-serif;
+        }
+
+        .weekdays td:nth-child(6),
+        .weekdays td:nth-child(7) {
+            font-weight: bold;
+        }
+
+        .colorPrev,
+        .colorNext {
+            color: lightgray;
+            font-size: 14px;
+            font-family: "Amazon Ember", sans-serif;
+        }
+
+        .colorCurrent {
+            color: #333333;
+            background-color: rgba(61, 209, 231, 0.5);
+            font-size: 15px;
+            text-shadow: 1px 2px 3px rgba(0, 0, 0, 0.3);
+            font-family: "Amazon Ember", sans-serif;
+        }
+    </style>
+</head>
+<body>
+<div style="width: 100%; height: 100%">
+    <table id="calendar"></table>
+</div>
+<script>
+    const getCalendar = () => {
+
+        const month = Number(prompt('Введите номер месяца:', ''));
+        const year = Number(prompt('Введите год:', ''));
+
+        const updateCalendar = (year, month) => {
+            const calendarId = document.getElementById('calendar');
+
+            const monthNames = ["Январь", "Февраль", "Март", "Апрель", "Май", "Июнь", "Июль", "Август", "Сентябрь", "Октябрь", "Ноябрь", "Декабрь"];
+            const calendarMonth = month - 1;
+            let calendarDate = new Date(year, calendarMonth, 1);
+            let prevMonthDate = new Date(year, calendarMonth, 0);
+            let prevMonthDay = prevMonthDate.getDate();
+            let nextMonthDay = 1;
+
+            let table = `<tr>
+                            <th colspan="7">
+                                <button role="button" id="decrease-year"><<</button>
+                                <button role="button" id="decrease-month"><</button>
+                                    ${monthNames[calendarMonth]} ${year} года
+                                <button role="button" id="increase-month">></button>
+                                <button role="button" id="increase-year">>></button>
+                            </th>
+                          </tr>`;
+            table += `<tr class="weekdays">
+                        <td>пн</td>
+                        <td>вт</td>
+                        <td>ср</td>
+                        <td>чт</td>
+                        <td>пт</td>
+                        <td>сб</td>
+                        <td>вс</td>
+                      </tr>`;
+
+            for (let i = 0; i < getDay(calendarDate); i++) {
+                table += `<td class="colorPrev" ">${prevMonthDay--}</td>`;
+            }
+
+            while (calendarDate.getMonth() === calendarMonth) {
+                table += '<td class="colorCurrent">' + calendarDate.getDate() + '</td>';
+
+                if (getDay(calendarDate) % 7 === 6) {
+                    table += '</tr><tr>';
+                }
+
+                calendarDate.setDate(calendarDate.getDate() + 1);
+            }
+
+            if (getDay(calendarDate) !== 0) {
+                for (let i = getDay(calendarDate); i < 7; i++) {
+                    table += `<td class="colorNext">${nextMonthDay++}</td>`;
+                }
+            }
+
+            table += '</tr>';
+            calendarId.innerHTML = table;
+
+            const decreaseYearBtn = document.getElementById('decrease-year');
+            const decreaseMonthBtn = document.getElementById('decrease-month');
+            const increaseMonthBtn = document.getElementById('increase-month');
+            const increaseYearBtn = document.getElementById('increase-year');
+
+            decreaseYearBtn.onclick = function () {
+                --year;
+                updateCalendar(year, month);
+            }
+
+            decreaseMonthBtn.onclick = function () {
+                if (month === 1) {
+                    month = 12;
+                    --year;
+                } else {
+                    --month;
+                }
+                updateCalendar(year, month);
+            }
+
+            increaseMonthBtn.onclick = function () {
+                if (month === 12) {
+                    month = 1;
+                    ++year;
+                } else {
+                    ++month;
+                }
+                updateCalendar(year, month);
+            }
+
+            increaseYearBtn.onclick = function () {
+                ++year;
+                updateCalendar(year, month);
+            }
+        }
+
+        const getDay = (date) => {
+            let dayOfWeek = date.getDay();
+            if (dayOfWeek === 0) dayOfWeek = 7;
+            return dayOfWeek - 1;
+        }
+
+        updateCalendar(year, month);
+    }
+
+    getCalendar();
+</script>
+</body>
+</html>
